@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33103.184
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CuteCoolTrackBar", "CuteCoolTrackBar\CuteCoolTrackBar.csproj", "{79434856-34B2-4727-B3BC-AF4F0F44817A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{79434856-34B2-4727-B3BC-AF4F0F44817A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79434856-34B2-4727-B3BC-AF4F0F44817A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79434856-34B2-4727-B3BC-AF4F0F44817A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79434856-34B2-4727-B3BC-AF4F0F44817A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1C039A63-E299-44A7-9741-34E3B5450F97}
+	EndGlobalSection
+EndGlobal

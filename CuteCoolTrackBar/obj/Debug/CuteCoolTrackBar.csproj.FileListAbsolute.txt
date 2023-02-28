@@ -1,0 +1,6 @@
+C:\Users\User\source\repos\CuteCoolTrackBar\CuteCoolTrackBar\obj\Debug\CuteCoolTrackBar.csproj.AssemblyReference.cache
+C:\Users\User\source\repos\CuteCoolTrackBar\CuteCoolTrackBar\obj\Debug\CuteCoolTrackBar.csproj.CoreCompileInputs.cache
+C:\Users\User\source\repos\CuteCoolTrackBar\CuteCoolTrackBar\bin\Debug\CuteCoolTrackBar.dll
+C:\Users\User\source\repos\CuteCoolTrackBar\CuteCoolTrackBar\bin\Debug\CuteCoolTrackBar.pdb
+C:\Users\User\source\repos\CuteCoolTrackBar\CuteCoolTrackBar\obj\Debug\CuteCoolTrackBar.dll
+C:\Users\User\source\repos\CuteCoolTrackBar\CuteCoolTrackBar\obj\Debug\CuteCoolTrackBar.pdb
