@@ -154,7 +154,7 @@ namespace CuteCoolTrackBar
             get { return _value; }
             set
             {
-                _value = value + Minimum;
+                _value = value ;
                 OnValueChanged(EventArgs.Empty);
                 Invalidate();
             }
@@ -562,7 +562,7 @@ namespace CuteCoolTrackBar
                     RectangleF recttest = new RectangleF(loc - MemorySize.Width / 2 - 20 + StringOffset.X, 0, 40, this.Height);//1...15 = width/2
 
                     int rectwidth = 40;
-                    RectangleF rectf = new RectangleF(loc - ThumbSize.Width / 2 + ThumbSize.Width / 4 - rectwidth / 2 + rectwidth / 8, 0, rectwidth, this.Height);//1...15 = width/2
+                    RectangleF rectf = new RectangleF(loc - ThumbSize.Width / 2 + ThumbSize.Width / 4 - rectwidth / 2 + rectwidth / 8 +StringOffset.X, 0 -StringOffset.Y, rectwidth, this.Height);//1...15 = width/2
                     //g.FillRectangle(new SolidBrush(Color.Red), rectf);
                     g.DrawString(i + AddString, StringFont, new SolidBrush(StringColor), rectf, format);
                 }
@@ -645,11 +645,11 @@ namespace CuteCoolTrackBar
                 //クリックした位置を確認、そこから一番近いValueに変更する
                 int calculationValue = (int)(Math.Round((e.Location.X - (LeftBlank + HorizontalBlank)) / perwidth));
                 //Console.WriteLine(calculationValue);
-                if (calculationValue < 0 )
-                    calculationValue = 0 ;
-                if (calculationValue > Maximum - (Minimum))
-                    calculationValue = Maximum - (Minimum);
-                Value = calculationValue;
+                if (calculationValue < Minimum )
+                    calculationValue = Minimum;
+                if (calculationValue > Maximum )
+                    calculationValue = Maximum;
+                Value = calculationValue ;
             }
         }
 
