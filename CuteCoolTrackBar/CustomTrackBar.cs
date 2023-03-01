@@ -13,12 +13,22 @@ namespace CuteCoolTrackBar
 {
     public partial class CustomTrackBar : Control
     {
-        #region Misc Proccess
+        #region Event
         protected override void OnKeyPress(KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Enter)
             {
                 Invalidate();
+            }
+        }
+
+        public event EventHandler ValueChanged;
+        protected virtual void OnValueChanged(EventArgs e)
+        {
+            EventHandler handler = ValueChanged;
+            if (handler != null)
+            {
+                handler(this, e);
             }
         }
         #endregion
@@ -144,7 +154,8 @@ namespace CuteCoolTrackBar
             get { return _value; }
             set
             {
-                _value = value;
+                _value = value + Minimum;
+                OnValueChanged(EventArgs.Empty);
                 Invalidate();
             }
         }
@@ -518,7 +529,7 @@ namespace CuteCoolTrackBar
             int a = 0;
             for (int i = Minimum; i < Maximum + 1; i++)
             {
-                if (i == Minimum || i == Maximum + 1 || i % StringFrequency == 0)
+                if (i == Minimum || i == Maximum  || i % StringFrequency == 0)
                 {
                     float loc = left + (a * perwidth);
                     g.FillRectangle(new SolidBrush(MemoryColor), new RectangleF(loc - ThumbSize.Width / 2 + ThumbSize.Width / 2 - MemorySize.Width / 2, this.Height / 2 - MemorySize.Height / 2, MemorySize.Width, MemorySize.Height));
@@ -545,7 +556,7 @@ namespace CuteCoolTrackBar
             int a = 0;
             for (int i = Minimum; i < Maximum + 1; i++)
             {
-                if (i == Minimum || i == Maximum + 1 || i % StringFrequency == 0)
+                if (i == Minimum || i == Maximum || i % StringFrequency == 0)
                 {
                     float loc = left + (a * perwidth);
                     RectangleF recttest = new RectangleF(loc - MemorySize.Width / 2 - 20 + StringOffset.X, 0, 40, this.Height);//1...15 = width/2
