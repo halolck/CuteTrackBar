@@ -521,7 +521,7 @@ namespace CuteCoolTrackBar
                 if (i == Minimum || i == Maximum + 1 || i % StringFrequency == 0)
                 {
                     float loc = left + (a * perwidth);
-                    g.FillRectangle(new SolidBrush(MemoryColor), new RectangleF(loc - ThumbSize.Width / 2 + ThumbSize.Width / 4, this.Height / 2 - MemorySize.Height / 2, MemorySize.Width, MemorySize.Height));
+                    g.FillRectangle(new SolidBrush(MemoryColor), new RectangleF(loc - ThumbSize.Width / 2 + ThumbSize.Width / 2 - MemorySize.Width / 2, this.Height / 2 - MemorySize.Height / 2, MemorySize.Width, MemorySize.Height));
 
                 }
                 a++;
