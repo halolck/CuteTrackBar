@@ -490,7 +490,7 @@ namespace CuteCoolTrackBar
             tickcount = Maximum - Minimum + Minimum;//必要tick数
             processwidth = right - left;
             perwidth = (float)processwidth / ((float)tickcount - Minimum);
-            loc = left + ((Value) * perwidth);
+            loc = left + ((Value - Minimum) * perwidth);
             ThumbRect = new Rectangle((int)(loc - ThumbSize.Width / 2) + ThumbOffset.X, this.Height / 2 - ThumbSize.Height / 2 + ThumbOffset.Y, ThumbSize.Width, ThumbSize.Height);
 
         }
@@ -529,7 +529,7 @@ namespace CuteCoolTrackBar
             int a = 0;
             for (int i = Minimum; i < Maximum + 1; i++)
             {
-                if (i == Minimum || i == Maximum  || i % StringFrequency == 0)
+                if (i == Minimum || i == Maximum || i % MemoryFrequency == 0)
                 {
                     float loc = left + (a * perwidth);
                     g.FillRectangle(new SolidBrush(MemoryColor), new RectangleF(loc - ThumbSize.Width / 2 + ThumbSize.Width / 2 - MemorySize.Width / 2, this.Height / 2 - MemorySize.Height / 2, MemorySize.Width, MemorySize.Height));
@@ -644,8 +644,9 @@ namespace CuteCoolTrackBar
             {
                 //クリックした位置を確認、そこから一番近いValueに変更する
                 int calculationValue = (int)(Math.Round((e.Location.X - (LeftBlank + HorizontalBlank)) / perwidth));
-                if (calculationValue < 0)
-                    calculationValue = 0;
+                //Console.WriteLine(calculationValue);
+                if (calculationValue < 0 )
+                    calculationValue = 0 ;
                 if (calculationValue > Maximum - (Minimum))
                     calculationValue = Maximum - (Minimum);
                 Value = calculationValue;
