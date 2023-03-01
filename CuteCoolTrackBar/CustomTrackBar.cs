@@ -53,6 +53,7 @@ namespace CuteCoolTrackBar
         };
         //内部用
         //現在のthumb位置を保存するためのもの
+        bool _thumbClicked = false;
         Rectangle ThumbRect = new Rectangle(0, 0, 1, 1);
         float left;
         float right;
@@ -463,10 +464,11 @@ namespace CuteCoolTrackBar
         {
             base.OnPaint(e);
             GetValue();
+            DrawNumber(e.Graphics);
             DrawMemory(e.Graphics);
             DrawTrack(e.Graphics);
             DrawThumb(e.Graphics);
-            DrawNumber(e.Graphics);
+
         }
 
         private void GetValue()
@@ -474,10 +476,10 @@ namespace CuteCoolTrackBar
             left = LeftBlank + HorizontalBlank - MemorySize.Width + (MemorySize.Width / 2);
             right = this.Width - (RightBlank + HorizontalBlank) + MemorySize.Width - (MemorySize.Width / 2) - 1;
             //指定の数に習って1当たりのlocを使って指定した数ごとに縦線を引く
-            tickcount = Maximum - Minimum + 1;//必要tick数
+            tickcount = Maximum - Minimum + Minimum;//必要tick数
             processwidth = right - left;
             perwidth = (float)processwidth / ((float)tickcount - Minimum);
-            loc = left + (Value * perwidth);
+            loc = left + ((Value) * perwidth);
             ThumbRect = new Rectangle((int)(loc - ThumbSize.Width / 2) + ThumbOffset.X, this.Height / 2 - ThumbSize.Height / 2 + ThumbOffset.Y, ThumbSize.Width, ThumbSize.Height);
 
         }
@@ -489,14 +491,14 @@ namespace CuteCoolTrackBar
             if (TrackRadius == 0)
             {
                 //前と後ろの二つを描画するように変更する
-                g.FillRectangle(new SolidBrush(BeforeTrackColor), new Rectangle(LeftBlank, (this.Height / 2) - (TrackHeight / 2), ThumbRect.Left - ThumbRect.Width / 2, height));
+                g.FillRectangle(new SolidBrush(BeforeTrackColor), new Rectangle(LeftBlank, (this.Height / 2) - (TrackHeight / 2), ThumbRect.Left + ThumbRect.Width / 2, height));
                 g.FillRectangle(new SolidBrush(AfterTrackColor), new Rectangle(ThumbRect.Left + ThumbRect.Width / 2, (this.Height / 2) - (TrackHeight / 2), this.Width - RightBlank - (ThumbRect.Left + ThumbRect.Width / 2), height));
 
             }
             else
             {
-                DrawRoundRect(g, new Rectangle(LeftBlank, (this.Height / 2) - (TrackHeight / 2), ThumbRect.Left - ThumbRect.Width / 2, height), BeforeTrackColor, TrackRadius);
-                DrawRoundRect(g, new Rectangle(ThumbRect.Left + ThumbRect.Width / 2, (this.Height / 2) - (TrackHeight / 2), this.Width - RightBlank - (ThumbRect.Left + ThumbRect.Width / 2), height), AfterTrackColor, TrackRadius);
+                DrawRoundRect(g, new Rectangle(LeftBlank, (this.Height / 2) - (TrackHeight / 2), ThumbRect.Left + ThumbRect.Width / 2 - LeftBlank, height), BeforeTrackColor, TrackRadius);
+                DrawRoundRect(g, new Rectangle(ThumbRect.Left + ThumbRect.Width / 2, (this.Height / 2) - (TrackHeight / 2), (this.Width - RightBlank) - (ThumbRect.Left + ThumbRect.Width / 2), height), AfterTrackColor, TrackRadius);
 
             }
 
@@ -513,14 +515,16 @@ namespace CuteCoolTrackBar
         //ThumbとMemoryで同じような処理しているので時間があれば綺麗にする
         private void DrawMemory(Graphics g)
         {
-            for (int i = 0; i < tickcount; i++)
+            int a = 0;
+            for (int i = Minimum; i < Maximum + 1; i++)
             {
-                if (i == 0 || i == tickcount || i % MemoryFrequency == 0)
+                if (i == Minimum || i == Maximum + 1 || i % StringFrequency == 0)
                 {
-                    float loc = left + (i * perwidth);
-                    g.FillRectangle(new SolidBrush(MemoryColor), new RectangleF(loc - MemorySize.Width / 2, this.Height / 2 - MemorySize.Height / 2, MemorySize.Width, MemorySize.Height));
+                    float loc = left + (a * perwidth);
+                    g.FillRectangle(new SolidBrush(MemoryColor), new RectangleF(loc - ThumbSize.Width / 2 + ThumbSize.Width / 4, this.Height / 2 - MemorySize.Height / 2, MemorySize.Width, MemorySize.Height));
 
                 }
+                a++;
             }
 
         }
@@ -529,15 +533,27 @@ namespace CuteCoolTrackBar
         {
             StringFormat format = new StringFormat();
             format.Alignment = StringAlignment.Center;
-            format.LineAlignment = StringAlignment.Center;
+            switch ((int)StringState)
+            {
+                case 0:
+                    format.LineAlignment = StringAlignment.Near;
+                    break;
+                case 1:
+                    format.LineAlignment = StringAlignment.Far;
+                    break;
+            }
             int a = 0;
             for (int i = Minimum; i < Maximum + 1; i++)
             {
                 if (i == Minimum || i == Maximum + 1 || i % StringFrequency == 0)
                 {
                     float loc = left + (a * perwidth);
-                    Rectangle rect = new Rectangle((int)(loc - MemorySize.Width / 2 - (MemorySize.Width / 2) - 15) + StringOffset.X, this.Height / 2 - MemorySize.Height - 18 + StringOffset.Y + StringOffset.Y, 30, 40);
-                    g.DrawString(i + AddString, StringFont, new SolidBrush(StringColor), rect, format);
+                    RectangleF recttest = new RectangleF(loc - MemorySize.Width / 2 - 20 + StringOffset.X, 0, 40, this.Height);//1...15 = width/2
+
+                    int rectwidth = 40;
+                    RectangleF rectf = new RectangleF(loc - ThumbSize.Width / 2 + ThumbSize.Width / 4 - rectwidth / 2 + rectwidth / 8, 0, rectwidth, this.Height);//1...15 = width/2
+                    //g.FillRectangle(new SolidBrush(Color.Red), rectf);
+                    g.DrawString(i + AddString, StringFont, new SolidBrush(StringColor), rectf, format);
                 }
                 a++;
             }
@@ -589,7 +605,6 @@ namespace CuteCoolTrackBar
 
         #endregion
 
-        bool _thumbClicked = false;
         #region MouseEvent
         protected override void OnMouseDown(MouseEventArgs e)
         {
@@ -617,12 +632,12 @@ namespace CuteCoolTrackBar
             if (_thumbClicked)
             {
                 //クリックした位置を確認、そこから一番近いValueに変更する
-                int x = (int)(Math.Round((e.Location.X - (LeftBlank + HorizontalBlank)) / perwidth));
-                if (x < 0)
-                    x = 0;
-                if (x > tickcount - Minimum)
-                    x = tickcount - Minimum;
-                Value = x;
+                int calculationValue = (int)(Math.Round((e.Location.X - (LeftBlank + HorizontalBlank)) / perwidth));
+                if (calculationValue < 0)
+                    calculationValue = Minimum;
+                if (calculationValue > Maximum - (Minimum))
+                    calculationValue = Maximum - (Minimum);
+                Value = calculationValue;
             }
         }
 
