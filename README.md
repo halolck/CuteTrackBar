@@ -5,7 +5,7 @@ Cute &amp; Cool TrackBar
 
 これはDiscordデザインを作る際に作成しました。
 
-#機能
+# 機能
 ValueChangeイベント
 
 一定毎に数字表示
@@ -14,7 +14,7 @@ ValueChangeイベント
 
 一般的なトラックバーの基本機能大半
 
-#今後
+# 今後
 バグの修正
 
 つまみから話した瞬間ValueChangeイベント(完全に自分用・SerialPortであまり投げまくりたくないから)
