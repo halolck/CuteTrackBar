@@ -119,6 +119,8 @@ namespace CuteCoolTrackBar
         private string _addstring;
         private AddCharStates _addcharstate = AddCharStates.None;
 
+        //TargetCursor
+        Cursor _targetcursor = Cursors.Default;
 
 
         [Browsable(true)]
@@ -157,6 +159,16 @@ namespace CuteCoolTrackBar
                 _value = value ;
                 OnValueChanged(EventArgs.Empty);
                 Invalidate();
+            }
+        }
+
+        [Category("General")]
+        public Cursor TargetinCursor
+        {
+            get { return _targetcursor; }
+            set
+            {
+                _targetcursor = value;
             }
         }
 
@@ -624,6 +636,7 @@ namespace CuteCoolTrackBar
             if (e.Button == MouseButtons.Left)
             {
                 _thumbClicked = ThumbHit(e.Location);
+                
                 Invalidate();
             }
         }
@@ -633,13 +646,22 @@ namespace CuteCoolTrackBar
             base.OnMouseUp(e);
 
             _thumbClicked = false;
+            if(!ThumbHit(e.Location))
+                Cursor = Cursors.Default;
             Invalidate();
         }
 
         protected override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
-
+            if (ThumbHit(e.Location))
+            {
+                Cursor = TargetinCursor;
+            }
+            else if (!_thumbClicked)
+            {
+                Cursor = Cursors.Default;
+            }
             if (_thumbClicked)
             {
                 //クリックした位置を確認、そこから一番近いValueに変更する
