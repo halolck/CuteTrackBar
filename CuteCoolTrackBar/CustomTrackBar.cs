@@ -156,6 +156,10 @@ namespace CuteCoolTrackBar
             get { return _value; }
             set
             {
+                if (value < Minimum)
+                    value = Minimum;
+                if (value > Maximum)
+                    value = Maximum;
                 _value = value ;
                 OnValueChanged(EventArgs.Empty);
                 Invalidate();
