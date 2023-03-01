@@ -634,7 +634,7 @@ namespace CuteCoolTrackBar
                 //クリックした位置を確認、そこから一番近いValueに変更する
                 int calculationValue = (int)(Math.Round((e.Location.X - (LeftBlank + HorizontalBlank)) / perwidth));
                 if (calculationValue < 0)
-                    calculationValue = Minimum;
+                    calculationValue = 0;
                 if (calculationValue > Maximum - (Minimum))
                     calculationValue = Maximum - (Minimum);
                 Value = calculationValue;
